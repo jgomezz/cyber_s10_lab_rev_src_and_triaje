@@ -1,0 +1,20 @@
+hostname,ip,tipo,entorno,descripcion,responsable,criticidad
+api-pagos-01,10.20.5.11,Servidor,Producción,"Ubuntu 22.04 · nginx 1.18.0, OpenSSL 3.0.2, OpenSSH 8.9p1",Equipo Pagos,Alta
+api-pagos-02,10.20.5.12,Servidor,Producción,"Ubuntu 22.04 · nginx 1.18.0, OpenSSL 3.0.2, OpenSSH 8.9p1",Equipo Pagos,Alta
+db-wallet-02,10.20.5.30,Base de datos,Producción,"RHEL 8.6 · PostgreSQL 13.4 · datos de 1,2 millones de clientes",DBA,Alta
+vpn-gw-01,10.20.0.1,Equipo de red,Producción,FortiOS 7.0.10 · SSL-VPN expuesta a Internet,Infraestructura,Alta
+bastion-01,10.20.0.5,Servidor,Producción,Ubuntu 22.04 · OpenSSH 9.6p1 · salto SSH a producción,Infraestructura,Alta
+grafana-mon,10.30.1.20,Servidor,Producción,Debian 11 · Grafana 8.2.6,Infraestructura,Media
+nb-dev-mrojas,10.40.2.31,Estación de trabajo,Estación de trabajo,Windows 11 · FortiClient 7.0.9,Desarrollo,Media
+nb-dev-lmendoza,10.40.2.44,Estación de trabajo,Estación de trabajo,Windows 11,Desarrollo,Media
+api-comercios-01,10.20.6.10,Servidor,Producción,Ubuntu 22.04 · Flask 2.0.1 · API de comercios,Equipo Comercios,Alta
+portal-web-01,10.20.7.10,Servidor,Producción,Ubuntu 22.04 · portal de clientes detrás del WAF,Equipo Digital,Alta
+ci-runner-01,10.40.9.10,Servidor,Desarrollo,Ubuntu 22.04 · GitLab Runner,Desarrollo,Media
+fs-finanzas,10.30.2.15,Servidor,Producción,Windows Server 2019 · carpetas de Finanzas,Infraestructura,Media
+nb-ops-scastro,10.40.3.12,Estación de trabajo,Estación de trabajo,Windows 11,Infraestructura,Media
+nb-dba-chuaman,10.40.3.20,Estación de trabajo,Estación de trabajo,Windows 11,Datos,Media
+nb-com-pvargas,10.40.5.33,Estación de trabajo,Estación de trabajo,macOS 14,Comercial,Media
+nb-dev-dtorres,10.40.2.52,Estación de trabajo,Estación de trabajo,Windows 11,Desarrollo,Media
+nb-ops-aquispe,10.40.3.11,Estación de trabajo,Estación de trabajo,Windows 11,Infraestructura,Media
+nb-ops-rflores,10.40.3.30,Estación de trabajo,Estación de trabajo,Windows 11,Operaciones,Media
+dc-01,10.20.0.10,Servidor,Producción,Windows Server 2022 · controlador de dominio,Infraestructura,Alta

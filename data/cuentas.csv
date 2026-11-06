@@ -1,0 +1,13 @@
+usuario,nombre,cargo,area,grupos,privilegios,ip_habitual
+m.rojas,Marco Rojas (ficticio),Desarrollador,Desarrollo,vpn-dev; soporte-prod; ssh-bastion,sudo en api-pagos-01 y api-pagos-02 (heredado de un apoyo a soporte en 2024),192.0.2.15 (Lima)
+l.mendoza,Lucía Mendoza (ficticia),Desarrolladora,Desarrollo,vpn-dev,Sin acceso a producción,192.0.2.58 (Lima)
+a.quispe,Andrés Quispe (ficticio),SRE,Infraestructura,vpn-ops; ssh-bastion; soporte-prod,sudo en servidores de producción,192.0.2.41 (Lima)
+svc_pagos,Cuenta de servicio,Servicio,Equipo Pagos,db-pagos-rw,Lectura y escritura en tablas pagos y clientes de db-wallet-02,10.20.5.11 y 10.20.5.12
+svc_backup,Cuenta de servicio,Servicio,DBA,db-backup,Lectura de todas las bases para respaldo,10.20.5.40
+s.castro,Sofía Castro (ficticia),SRE,Infraestructura,vpn-ops; ssh-bastion; soporte-prod,sudo en servidores de producción,192.0.2.47 (Lima)
+c.huaman,Carlos Huamán (ficticio),DBA,Datos,vpn-ops; ssh-bastion; db-admin,Administrador de db-wallet-02,192.0.2.63 (Lima)
+p.vargas,Paula Vargas (ficticia),Jefa comercial,Comercial,vpn-negocio,Sin acceso a producción,192.0.2.72 (Arequipa)
+d.torres,Diego Torres (ficticio),Desarrollador,Desarrollo,vpn-dev,Sin acceso a producción,192.0.2.81 (Lima)
+r.flores,Rosa Flores (ficticia),Analista de soporte,Operaciones,vpn-ops,Lectura en la consola de comercios,192.0.2.90 (Lima)
+svc_ci,Cuenta de servicio,Servicio,Desarrollo,ci-deploy,Despliegue en api-pagos-01 y api-pagos-02,10.40.9.10
+analista.n1,Turno del SOC tercerizado,Analista N1,SOC,soc-consola,Lectura en el SIEM,10.50.0.10

@@ -1,0 +1,8 @@
+# Cliente único de modelos (kit común)
+litellm>=1.50,<1.106
+python-dotenv>=1.0
+pyyaml>=6.0
+# Salida estructurada y Excel
+pydantic>=2.7
+pandas>=2.2
+openpyxl>=3.1

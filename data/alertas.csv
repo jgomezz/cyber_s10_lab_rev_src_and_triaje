@@ -1,0 +1,5 @@
+id,fecha_hora,fuente,severidad,descripcion,usuario,host,estado
+A-0003,2026-03-13T22:56:00,IdP,Media,Múltiples notificaciones MFA rechazadas para m.rojas,m.rojas,,Sin revisar
+A-0004,2026-03-13T22:58:10,VPN,Baja,Inicio de sesión VPN desde país inusual (NL) para m.rojas,m.rojas,vpn-gw-01,Sin revisar
+A-0002,2026-03-13T20:15:09,EDR,Baja,Adware en cuarentena en nb-dev-lmendoza,l.mendoza,nb-dev-lmendoza,Cerrada
+A-0001,2026-03-13T23:40:00,NDR,Alta,"Transferencia saliente anómala (43,6 MB) desde servidor de producción api-pagos-02 hacia 198.51.100.24:443",,api-pagos-02,Nueva

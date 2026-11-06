@@ -1,0 +1,6 @@
+indicador,tipo,descripcion,confianza,fuente,visto_desde
+198.51.100.24,ip,Servidor de comando y control asociado a campañas de robo de datos en Latinoamérica,Alta,Feed comercial de inteligencia,2026-02-18
+203.0.113.77,ip,Nodo de un servicio de VPN comercial usado como proxy anónimo,Media,Feed abierto,2026-03-01
+andinapagos-it.com,dominio,"Dominio registrado el 2026-03-02, imita la marca Andina Pagos (typosquatting)",Alta,Monitoreo de marca,2026-03-09
+203.0.113.10,ip,Aloja andinapagos-it.com (portal falso de VPN),Alta,Monitoreo de marca,2026-03-09
+9f2c4e1a7b3d5f60c8e2a4b6d8f0a1c3e5b7d9f1a3c5e7b9d1f3a5c7e9b1d3f5,sha256,Sin coincidencias en los feeds,Desconocida,Feed comercial de inteligencia,
